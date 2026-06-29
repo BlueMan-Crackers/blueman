@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (!sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+  <style>
+    .admin-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+      padding: 0.5rem;
+      border-radius: var(--border-radius-sm);
+      width: 100px;
+      font-family: 'Outfit', sans-serif;
+    }
+    .admin-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    .save-btn {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: var(--border-radius-pill);
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .save-btn:hover {
+      background: var(--color-primary-light);
+    }
+    .admin-header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius-pill);
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      margin-left: 0.5rem;
+    }
+    .delete-btn:hover {
+      background: #dc2626;
+    }
+    .category-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="font-weight: 700; color: var(--color-accent); font-size: 1.2rem;">Admin Panel</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-content" style="min-height: 80vh;">
+    <div class="container">
+      <div class="admin-header">
+        <h2 style="font-size: 2rem;">Manage Products</h2>
+        <a href="products.html" class="btn-secondary">View Live Store</a>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 3rem;">
+        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">Add New Product</h3>
+        <form id="add-product-form" onsubmit="addProduct(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <input type="text" id="new-name" class="admin-input" style="width: 100%;" placeholder="Product Name" required>
+          <input type="text" id="new-category" class="admin-input" style="width: 100%;" placeholder="Category (e.g., Sparklers)" required>
+          <input type="number" id="new-price" class="admin-input" style="width: 100%;" placeholder="Price (₹)" required>
+          <input type="number" id="new-discount" class="admin-input" style="width: 100%;" placeholder="Discount (%)" value="0">
+          <input type="text" id="new-image" class="admin-input" style="width: 100%;" placeholder="Image URL (Optional)">
+          <button type="submit" id="add-btn" class="btn-primary" style="padding: 0.8rem; border: none; grid-column: 1 / -1; cursor: pointer;">Add Product</button>
+        </form>
+      </div>
+
+      <div id="admin-categories-container">
+        <div style="text-align: center; padding: 2rem;">Loading...</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function fetchAdminProducts() {
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/products');
+        const products = await response.json();
+        const container = document.getElementById('admin-categories-container');
+        container.innerHTML = '';
+
+        // Group products by category
+        const categorizedProducts = {};
+        products.forEach((product) => {
+          if (!categorizedProducts[product.category]) {
+            categorizedProducts[product.category] = [];
+          }
+          categorizedProducts[product.category].push(product);
+        });
+
+        for (const [category, items] of Object.entries(categorizedProducts)) {
+          // Category Header
+          const headerContainer = document.createElement('div');
+          headerContainer.className = 'category-header-flex';
+          
+          const header = document.createElement('h2');
+          header.innerText = category;
+          header.style.color = 'var(--color-primary)';
+          header.style.fontSize = '1.8rem';
+          header.style.margin = '0';
+          header.style.borderBottom = 'none'; // Overriding the existing border style if any
+          
+          const deleteCatBtn = document.createElement('button');
+          deleteCatBtn.className = 'delete-btn';
+          deleteCatBtn.innerText = 'Delete Category';
+          deleteCatBtn.onclick = () => deleteCategory(category);
+          
+          headerContainer.appendChild(header);
+          headerContainer.appendChild(deleteCatBtn);
+          container.appendChild(headerContainer);
+
+          // Table Container
+          const tableContainer = document.createElement('div');
+          tableContainer.className = 'product-table-container';
+
+          const table = document.createElement('table');
+          table.className = 'product-table';
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Product Name</th>
+                <th>Price (₹)</th>
+                <th>Discount (%)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+          
+          const tbody = table.querySelector('tbody');
+
+          items.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${product.Sno}</td>
+              <td>
+                <div style="font-weight: 600; font-size: 1.1rem; color: var(--text-main);">${product.name}</div>
+                <div style="font-size: 0.8rem; color: var(--color-primary); text-transform: uppercase;">${product.category}</div>
+              </td>
+              <td><input type="number" id="price-${product.Sno}" class="admin-input" value="${product.price}"></td>
+              <td><input type="number" id="discount-${product.Sno}" class="admin-input" value="${product.discount}"></td>
+              <td>
+                <button class="save-btn" onclick="saveProduct(event, ${product.Sno})">Save</button>
+                <button class="delete-btn" onclick="deleteProduct(${product.Sno})">Delete</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+
+          tableContainer.appendChild(table);
+          container.appendChild(tableContainer);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        const container = document.getElementById('admin-categories-container');
+        container.innerHTML = '<div style="text-align: center; color: #ff4444; padding: 2rem;">Failed to load products.</div>';
+      }
+    }
+
+    async function saveProduct(event, Sno) {
+      const price = document.getElementById(`price-${Sno}`).value;
+      const discount = document.getElementById(`discount-${Sno}`).value;
+      const btn = event.target;
+      const originalText = btn.innerText;
+
+      btn.innerText = 'Saving...';
+      btn.style.opacity = '0.7';
+
+      try {
+        const response = await fetch(`http://127.0.0.1:3000/api/products/${Sno}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ price: parseFloat(price), discount: parseFloat(discount) })
+        });
+
+        if (response.ok) {
+          btn.innerText = 'Saved!';
+          btn.style.background = '#10b981'; // Green success color
+          btn.style.opacity = '1';
+          setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = 'var(--color-primary)';
+          }, 2000);
+        } else {
+          alert('Failed to save');
+          btn.innerText = originalText;
+          btn.style.opacity = '1';
+        }
+      } catch (error) {
+        console.error('Error saving product:', error);
+        alert('Error saving product');
+        btn.innerText = originalText;
+        btn.style.opacity = '1';
+      }
+    }
+
+    async function addProduct(event) {
+      event.preventDefault();
+      const btn = document.getElementById('add-btn');
+      const originalText = btn.innerText;
+      
+      const name = document.getElementById('new-name').value;
+      const category = document.getElementById('new-category').value;
+      const price = parseFloat(document.getElementById('new-price').value);
+      const discount = parseFloat(document.getElementById('new-discount').value) || 0;
+      const image = document.getElementById('new-image').value;
+
+      btn.innerText = 'Adding...';
+      btn.style.opacity = '0.7';
+
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, category, price, discount, image })
+        });
+
+        if (response.ok) {
+          btn.innerText = 'Added Successfully!';
+          btn.style.background = '#10b981';
+          btn.style.opacity = '1';
+          
+          document.getElementById('add-product-form').reset();
+          
+          setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = 'var(--color-primary)';
+          }, 2000);
+          
+          // Refresh tables
+          fetchAdminProducts();
+        } else {
+          const err = await response.json();
+          alert('Failed to add product: ' + (err.error || 'Unknown error'));
+          btn.innerText = originalText;
+          btn.style.opacity = '1';
+        }
+      } catch (error) {
+        console.error('Error adding product:', error);
+        alert('Error connecting to server.');
+        btn.innerText = originalText;
+        btn.style.opacity = '1';
+      }
+    }
+
+    async function deleteProduct(Sno) {
+      if (!confirm('Are you sure you want to delete this product?')) return;
+      try {
+        const response = await fetch(`http://127.0.0.1:3000/api/products/${Sno}`, { method: 'DELETE' });
+        if (response.ok) {
+          fetchAdminProducts();
+        } else {
+          alert('Failed to delete product');
+        }
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert('Error connecting to server.');
+      }
+    }
+
+    async function deleteCategory(category) {
+      if (!confirm(`Are you sure you want to delete the entire category "${category}"?`)) return;
+      try {
+        const response = await fetch(`http://127.0.0.1:3000/api/products/category/${encodeURIComponent(category)}`, { method: 'DELETE' });
+        if (response.ok) {
+          fetchAdminProducts();
+        } else {
+          alert('Failed to delete category');
+        }
+      } catch (error) {
+        console.error('Error deleting category:', error);
+        alert('Error connecting to server.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchAdminProducts);
+  </script>
+</body>
+</html>

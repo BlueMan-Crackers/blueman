@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (!sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link active">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="actions" style="display: flex; align-items: center; gap: 1rem;">
+        <a href="contact.html" class="btn-primary">Get Quote</a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav class="mobile-nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link active">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="hero-title">About <span class="text-gradient">BLUE MAN</span></h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">Bringing joy and light to your celebrations for over 20 years.
+      </p>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section class="page-content">
+    <div class="container" style="max-width: 800px; text-align: center;">
+      <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Our Story</h2>
+      <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
+        Located in the heart of Sivakasi, the fireworks capital of India, BLUE MAN Crackers has been a trusted name in
+        manufacturing and distributing premium quality crackers. We believe that every celebration deserves to be
+        spectacular, safe, and memorable.
+      </p>
+      <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
+        Our team of experts uses the finest raw materials and adheres to the strictest safety standards to ensure that
+        every firework you light brings a smile to your face without compromising on safety.
+      </p>
+
+      <div class="grid grid-cols-3" style="margin-top: 4rem; gap: 2rem;">
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--border-radius-md);">
+          <h3 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 0.5rem;">20+</h3>
+          <p style="font-weight: 500;">Years of Experience</p>
+        </div>
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--border-radius-md);">
+          <h3 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 0.5rem;">500+</h3>
+          <p style="font-weight: 500;">Product Varieties</p>
+        </div>
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--border-radius-md);">
+          <h3 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 0.5rem;">1M+</h3>
+          <p style="font-weight: 500;">Happy Customers</p>
+        </div>
+      </div>
+
+      <!-- Map Section -->
+      <div style="margin-top: 5rem; width: 100%;">
+        <h2 style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">Visit Our Store</h2>
+        <iframe
+          src="https://maps.google.com/maps?q=BLUE+MAN+CRACKERS,+Vellaiya+Puram,+Sivakasi&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="400" style="border:0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+  </script>
+</body>
+
+</html>

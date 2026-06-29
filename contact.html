@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (!sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+
+      <div class="actions" style="display: flex; align-items: center; gap: 1rem;">
+        <a href="contact.html" class="btn-primary">Get Quote</a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav class="mobile-nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="hero-title">Get in <span class="text-gradient">Touch</span></h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">Have questions or want to place a bulk order? We're here to help.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="page-content">
+    <div class="container contact-grid">
+      <!-- Contact Info -->
+      <div class="contact-info-card">
+        <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Contact Information</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Reach out to us via phone, email, or visit our store
+          in Sivakasi.</p>
+
+        <ul style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <li style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div
+              style="background: rgba(0, 85, 255, 0.1); padding: 1rem; border-radius: 50%; color: var(--color-primary); font-size: 1.5rem;">
+              📍</div>
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.2rem;">Our Address</h3>
+              <p style="color: var(--text-muted);">3/157 KAMARAJAR NAGAR, VELLAIYAPURAM, SIVAKASI, VIRUDHUNAGAR,
+                TAMILNADU - 626130</p>
+            </div>
+          </li>
+          <li style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div
+              style="background: rgba(0, 85, 255, 0.1); padding: 1rem; border-radius: 50%; color: var(--color-primary); font-size: 1.5rem;">
+              📞</div>
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.2rem;">Phone / WhatsApp</h3>
+              <p style="color: var(--text-muted);">+91 96008 76521 <br> +91 87784 13276</p>
+            </div>
+          </li>
+          <li style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div
+              style="background: rgba(0, 85, 255, 0.1); padding: 1rem; border-radius: 50%; color: var(--color-primary); font-size: 1.5rem;">
+              ✉️</div>
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.2rem;">Email Us</h3>
+              <p style="color: var(--text-muted);">bluemancrackers@gmail.com</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-info-card">
+        <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Send a Message</h2>
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone / WhatsApp Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message or Requirements</label>
+            <textarea id="message" class="form-control" rows="5" placeholder="Tell us what you're looking for..."
+              required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="margin-top: 1rem;">Send Inquiry ➔</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="container" style="margin-top: 4rem;">
+      <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center;">Find Us on the Map</h2>
+      <iframe
+        src="https://maps.google.com/maps?q=BLUE+MAN+CRACKERS,+Vellaiya+Puram,+Sivakasi&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        width="100%" height="450" style="border:0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const message = document.getElementById('message').value;
+      
+      const text = `Hello BLUE MAN Crackers,\n\nName: ${name}\nPhone: ${phone}\n\nMessage:\n${message}`;
+
+      // Send email in background
+      try {
+        await fetch('http://127.0.0.1:3000/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: `New Contact Inquiry from ${name} - BLUE MAN Crackers`,
+            message: text
+          })
+        });
+      } catch (err) {
+        console.error('Failed to send email', err);
+      }
+
+      const encodedText = encodeURIComponent(text);
+      
+      // Open WhatsApp in a new tab
+      window.open(`https://wa.me/918124600699?text=${encodedText}`, '_blank');
+      
+      // Show success slide on current page
+      document.getElementById('success-slide').classList.add('active');
+    });
+  </script>
+
+  <!-- Success Slide Overlay -->
+  <div id="success-slide" class="success-slide">
+    <div class="container" style="text-align: center; max-width: 600px;">
+      <div style="font-size: 4rem; margin-bottom: 1rem; animation: bounceIn 1s ease;">✅</div>
+      <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Message Sent!</h1>
+      <p class="hero-subtitle" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.2rem;">
+        Your message has been sent successfully. We will get back to you shortly.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+        <a href="index.html" class="btn-primary" style="width: 100%; max-width: 300px;">🏠 Home Page</a>
+        <a href="about.html" class="btn-secondary" style="width: 100%; max-width: 300px;">ℹ️ About Us</a>
+        <a href="contact.html" class="btn-secondary" style="width: 100%; max-width: 300px;">📞 Contact Us</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

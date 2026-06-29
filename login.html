@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'index.html';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Video Intro Overlay -->
+  <div id="intro-screen">
+    <video id="intro-video" autoplay muted playsinline>
+      <source src="intro.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button id="skip-btn" onclick="skipIntro()">Skip Intro</button>
+  </div>
+
+  <!-- Agency Text Intro -->
+  <div id="agency-intro">
+    <h1 class="agency-text">AKSHAYA AGENCIES</h1>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center; margin: 0 auto;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 60px; width: auto;"></a>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <section class="page-content" style="min-height: calc(100vh - 80px - 300px); display: flex; align-items: center; padding-top: 4rem;">
+    <div class="container" style="display: flex; justify-content: center;">
+      <div class="auth-container reveal-scale-up" style="transition-duration: 0.8s;">
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+          <button class="auth-tab" onclick="switchTab('register')">Register</button>
+        </div>
+        
+        <div class="auth-form-container" id="login-container">
+          <p class="auth-subtitle">If you have an account, sign in with your email address.</p>
+          
+          <form class="auth-form" id="loginForm">
+            <div class="form-group">
+              <label for="login-email">Email address *</label>
+              <input type="email" id="login-email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="login-password">Password *</label>
+              <input type="password" id="login-password" class="form-control" required>
+            </div>
+            
+            <div class="auth-options" style="justify-content: flex-end;">
+              <a href="#" class="forgot-password" onclick="switchTab('forgot')">Lost your password?</a>
+            </div>
+            
+            <button type="submit" class="btn-primary auth-submit" style="width: 100%; justify-content: center; margin-top: 1rem;">Log in</button>
+          </form>
+        </div>
+
+        <div class="auth-form-container" id="register-container" style="display: none;">
+          <p class="auth-subtitle">Create a new account to shop faster and track your orders.</p>
+          
+          <form class="auth-form" id="registerForm">
+            <div class="form-group">
+              <label for="reg-name">Full Name *</label>
+              <input type="text" id="reg-name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-email">Email address *</label>
+              <input type="email" id="reg-email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="reg-password">Password *</label>
+              <input type="password" id="reg-password" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="btn-primary auth-submit" style="width: 100%; justify-content: center; margin-top: 1rem;">Sign Up</button>
+          </form>
+        </div>
+
+        <div class="auth-form-container" id="forgot-container" style="display: none;">
+          <p class="auth-subtitle">Enter your email address and we'll send you a link to reset your password.</p>
+          
+          <form class="auth-form" id="forgotForm">
+            <div class="form-group">
+              <label for="forgot-email">Email address *</label>
+              <input type="email" id="forgot-email" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="btn-primary auth-submit" style="width: 100%; justify-content: center; margin-top: 1rem;">Send Reset Link</button>
+            <div style="text-align: center; margin-top: 1rem;">
+              <a href="#" class="forgot-password" onclick="switchTab('login')">Back to Login</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    // Intro Video Logic
+    const introScreen = document.getElementById('intro-screen');
+    const introVideo = document.getElementById('intro-video');
+    const agencyIntro = document.getElementById('agency-intro');
+
+    function revealSite() {
+      document.body.classList.add('reveal-active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function showAgencyIntro() {
+      // Fade out video
+      introScreen.classList.add('fade-out');
+      setTimeout(() => { introScreen.style.display = 'none'; }, 500);
+
+      // Show agency text animation
+      agencyIntro.classList.add('show');
+
+      // Wait for animation to settle, then fade out and show site
+      setTimeout(() => {
+        agencyIntro.classList.remove('show');
+        setTimeout(() => {
+          agencyIntro.style.display = 'none';
+          revealSite();
+        }, 800);
+      }, 3000);
+    }
+
+    function skipIntro() {
+      if (introVideo) introVideo.pause();
+      introScreen.style.display = 'none';
+      if (agencyIntro) agencyIntro.style.display = 'none';
+      revealSite();
+      sessionStorage.setItem('introPlayed', 'true');
+    }
+
+    if (introVideo) {
+      if (!sessionStorage.getItem('introPlayed')) {
+        document.body.style.overflow = 'hidden';
+        introVideo.addEventListener('ended', () => {
+          showAgencyIntro();
+          sessionStorage.setItem('introPlayed', 'true');
+        });
+      } else {
+        introScreen.style.display = 'none';
+        if (agencyIntro) agencyIntro.style.display = 'none';
+        revealSite();
+      }
+    } else {
+      revealSite();
+    }
+
+    function switchTab(tab) {
+      const loginTab = document.querySelectorAll('.auth-tab')[0];
+      const regTab = document.querySelectorAll('.auth-tab')[1];
+      const tabsContainer = document.querySelector('.auth-tabs');
+      const loginContainer = document.getElementById('login-container');
+      const regContainer = document.getElementById('register-container');
+      const forgotContainer = document.getElementById('forgot-container');
+
+      loginContainer.style.display = 'none';
+      regContainer.style.display = 'none';
+      if(forgotContainer) forgotContainer.style.display = 'none';
+      tabsContainer.style.display = 'flex';
+
+      if (tab === 'login') {
+        loginTab.classList.add('active');
+        regTab.classList.remove('active');
+        loginContainer.style.display = 'block';
+      } else if (tab === 'register') {
+        regTab.classList.add('active');
+        loginTab.classList.remove('active');
+        regContainer.style.display = 'block';
+      } else if (tab === 'forgot') {
+        tabsContainer.style.display = 'none';
+        forgotContainer.style.display = 'block';
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const btn = e.target.querySelector('button');
+      const originalText = btn.innerText;
+      btn.innerText = 'Logging in...';
+
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          sessionStorage.setItem('loggedIn', 'true');
+          sessionStorage.setItem('userEmail', email);
+          sessionStorage.setItem('userName', data.name);
+          
+          if(email.toLowerCase() === 'admin@admin.com') {
+            window.location.href = 'admin.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        } else {
+          alert(data.error || 'Login failed');
+          btn.innerText = originalText;
+        }
+      } catch(err) {
+        alert('Server error: ' + err.message);
+        btn.innerText = originalText;
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-password').value;
+      const btn = e.target.querySelector('button');
+      const originalText = btn.innerText;
+      btn.innerText = 'Creating account...';
+
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          alert('Account created successfully! Please log in.');
+          switchTab('login');
+          document.getElementById('login-email').value = email;
+          document.getElementById('login-password').value = '';
+          e.target.reset();
+        } else {
+          alert(data.error || 'Registration failed');
+        }
+      } catch(err) {
+        alert('Server error: ' + err.message);
+      }
+      btn.innerText = originalText;
+    });
+
+    document.getElementById('forgotForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgot-email').value;
+      const btn = e.target.querySelector('button');
+      const originalText = btn.innerText;
+      btn.innerText = 'Sending...';
+
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          alert('If your email is registered, a password reset link has been sent. Please check your inbox.');
+          switchTab('login');
+          e.target.reset();
+        } else {
+          alert(data.error || 'Failed to send reset link.');
+        }
+      } catch(err) {
+        alert('Server error: ' + err.message);
+      }
+      btn.innerText = originalText;
+    });
+  </script>
+</body>
+
+</html>

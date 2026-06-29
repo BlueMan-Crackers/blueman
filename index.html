@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLUE MAN Crackers - Premium Sivakasi Fireworks</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Premium Sivakasi Crackers and Fireworks for all your celebrations.">
+  <script>
+    if (!sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header reveal-slide-down">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="actions" style="display: flex; align-items: center; gap: 1rem;">
+        <a href="contact.html" class="btn-primary">
+          <span>Get Quote</span>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav class="mobile-nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-badge reveal-element delay-1">
+          ✨ <span>Premium Sivakasi Crackers</span>
+        </div>
+        <h1 class="hero-title reveal-element delay-2">
+          Light Up Your <br>
+          <span class="text-gradient">Celebrations</span>
+        </h1>
+        <p class="hero-subtitle reveal-element delay-3">
+          Experience the magic of high-quality, safe, and spectacular fireworks. Direct from the fireworks capital of
+          India. Let's make every moment unforgettable.
+        </p>
+        <div class="hero-actions reveal-element delay-4">
+          <a href="products.html" class="btn-primary">Shop Now ➔</a>
+          <a href="contact.html" class="btn-secondary">Request Quote</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal-scale-up delay-3">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1533281808624-e9ed736a568a?q=80&w=800&auto=format&fit=crop"
+            alt="Beautiful Fireworks" class="hero-image">
+          <div class="glow-effect"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function revealSite() {
+      document.body.classList.add('reveal-active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    // Simulate initial reveal since intro is gone
+    document.addEventListener('DOMContentLoaded', () => {
+      revealSite();
+    });
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+  </script>
+</body>
+
+</html>

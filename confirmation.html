@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="actions" style="display: flex; align-items: center; gap: 1rem;">
+        <a href="contact.html" class="btn-primary">Get Quote</a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav class="mobile-nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="hero-title">Order <span class="text-gradient">Confirmation</span></h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">Review your selected items before confirming via WhatsApp</p>
+    </div>
+  </div>
+
+  <!-- Confirmation Section -->
+  <section class="page-content">
+    <div class="container">
+      <div class="product-table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th style="width: auto;">Product Name</th>
+              <th style="width: 120px;">Original Price</th>
+              <th style="width: 100px;">Discount</th>
+              <th style="width: 150px;">Discounted Price</th>
+              <th style="width: 80px;">Qty</th>
+              <th style="width: 150px;">Total Price</th>
+            </tr>
+          </thead>
+          <tbody id="cart-list">
+            <!-- Cart items will be loaded dynamically via JavaScript -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" style="text-align: right; font-weight: 700; font-size: 1.2rem; padding: 1rem;">Grand Total:</td>
+              <td id="cart-grand-total" style="font-weight: 700; font-size: 1.2rem; color: var(--color-primary); padding: 1rem;">₹0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div style="text-align: right; margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+        <a href="products.html" class="btn-secondary">← Back to Products</a>
+        <button class="btn-primary" onclick="confirmOrder()" style="background: linear-gradient(135deg, #25D366, #128C7E); box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);">
+          Confirm via WhatsApp ➔
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    let cartItems = [];
+    let grandTotal = 0;
+
+    function renderCart() {
+      const storedCart = localStorage.getItem('blueman_cart');
+      if (storedCart) {
+        cartItems = JSON.parse(storedCart);
+      }
+
+      if (cartItems.length === 0) {
+        document.getElementById('cart-list').innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem;">Your order is empty. <a href="products.html" style="color:var(--color-primary); text-decoration:underline;">Return to products</a></td></tr>';
+        document.getElementById('cart-grand-total').innerText = '₹0.00';
+        return;
+      }
+
+      const tbody = document.getElementById('cart-list');
+      tbody.innerHTML = '';
+      grandTotal = 0;
+
+      cartItems.forEach((item) => {
+        grandTotal += item.total;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>
+            <h3 class="table-product-name" style="margin:0;">${item.name}</h3>
+          </td>
+          <td><span style="color: var(--text-muted);">₹${item.price.toFixed(2)}</span></td>
+          <td><span style="background: rgba(255, 68, 68, 0.15); color: #ff6b6b; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.8rem;">${item.discount}%</span></td>
+          <td><span style="font-weight: 600; color: var(--text-main);">₹${item.discountedPrice.toFixed(2)}</span></td>
+          <td style="font-weight: 700;">${item.qty}</td>
+          <td class="table-product-total">₹${item.total.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('cart-grand-total').innerText = `₹${grandTotal.toFixed(2)}`;
+    }
+
+    async function confirmOrder() {
+      if (cartItems.length === 0) {
+        alert("Your order is empty.");
+        return;
+      }
+
+      let message = "Hello BLUE MAN Crackers, I would like to confirm my order:\n\n";
+      
+      cartItems.forEach((item, index) => {
+        message += `${index + 1}. *${item.name}* (Qty: ${item.qty})\n`;
+        message += `   Price: ₹${item.discountedPrice.toFixed(2)} / ea\n`;
+        message += `   Subtotal: ₹${item.total.toFixed(2)}\n\n`;
+      });
+      
+      message += `*Grand Total: ₹${grandTotal.toFixed(2)}*\n\n`;
+      message += "Please let me know the payment details and next steps.";
+
+      // Send email in background
+      try {
+        await fetch('http://localhost:3000/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: 'New Order - BLUE MAN Crackers',
+            message: message
+          })
+        });
+      } catch (err) {
+        console.error('Failed to send email', err);
+      }
+
+      const encodedText = encodeURIComponent(message);
+      
+      // Open WhatsApp in a new tab
+      window.open(`https://wa.me/918124600699?text=${encodedText}`, '_blank');
+      
+      // Show success slide on current page
+      document.getElementById('success-slide').classList.add('active');
+      localStorage.removeItem('blueman_cart');
+      if (typeof onCartUpdated === 'function') {
+        onCartUpdated([]);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+
+  <!-- Success Slide Overlay -->
+  <div id="success-slide" class="success-slide">
+    <div class="container" style="text-align: center; max-width: 600px;">
+      <div style="font-size: 4rem; margin-bottom: 1rem; animation: bounceIn 1s ease;">✅</div>
+      <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Request Sent!</h1>
+      <p class="hero-subtitle" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.2rem;">
+        Your order has been sent. We will contact you soon with the payment details and further steps.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+        <a href="index.html" class="btn-primary" style="width: 100%; max-width: 300px;">🏠 Home Page</a>
+        <a href="about.html" class="btn-secondary" style="width: 100%; max-width: 300px;">ℹ️ About Us</a>
+        <a href="contact.html" class="btn-secondary" style="width: 100%; max-width: 300px;">📞 Contact Us</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

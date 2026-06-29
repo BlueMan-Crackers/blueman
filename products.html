@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - BLUE MAN Crackers</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (!sessionStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png"
+          alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="actions" style="display: flex; align-items: center; gap: 1rem;">
+        <a href="contact.html" class="btn-primary">Get Quote</a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav class="mobile-nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="hero-title">Our <span class="text-gradient">Collections</span></h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">Browse through our premium selection of fireworks</p>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <section class="page-content">
+    <div class="container">
+      <div id="categories-container">
+        <!-- Categories and tables will be loaded dynamically via JavaScript -->
+      </div>
+      
+      <div id="grand-total-container" style="display: none; background: rgba(255,255,255,0.05); padding: 1.5rem 2rem; border-radius: 12px; margin-top: 2rem; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 1.2rem; font-weight: 500;">Grand Total Estimate:</div>
+        <div id="grand-total" style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">₹0.00</div>
+      </div>
+
+      <div style="text-align: right; margin-top: 2rem;">
+        <button class="btn-primary" onclick="proceedToConfirmation()">Proceed to Confirmation ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <a href="index.html" class="logo" style="display: flex; align-items: center; margin-bottom: 1rem;"><img
+            src="logo.png" alt="BLUE MAN Crackers Logo" style="max-height: 50px; width: auto;"></a>
+        <p class="footer-desc">The ultimate destination for premium quality fireworks and crackers. Make your
+          celebrations brighter and louder with our exclusive collections.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Shop Crackers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-list">
+          <li>📍 3/157 Kamarajar Nagar, Vellaiyapuram, Sivakasi - 626130</li>
+          <li>📞 +91 96008 76521 <br> 📞 +91 87784 13276</li>
+          <li>✉️ bluemancrackers@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 BLUE MAN Crackers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    let globalProducts = [];
+
+    // Calculate all totals
+    function calculateTotals() {
+      let grandTotal = 0;
+      globalProducts.forEach((product, index) => {
+        const qtyInput = document.getElementById(`qty-${index}`);
+        const totalCell = document.getElementById(`total-${index}`);
+        const qty = parseInt(qtyInput.value) || 0;
+        
+        const discountedPrice = product.price - (product.price * (product.discount / 100));
+        const rowTotal = discountedPrice * qty;
+        
+        totalCell.innerText = `₹${rowTotal.toFixed(2)}`;
+        grandTotal += rowTotal;
+      });
+      
+      document.getElementById('grand-total').innerText = `₹${grandTotal.toFixed(2)}`;
+    }
+
+    // Fetch and render products from the backend
+    async function fetchProducts() {
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/products');
+        globalProducts = await response.json();
+        const container = document.getElementById('categories-container');
+        const grandTotalContainer = document.getElementById('grand-total-container');
+        container.innerHTML = '';
+
+        if(globalProducts.length > 0) {
+          grandTotalContainer.style.display = 'flex';
+        }
+
+        // Group products by category
+        const categorizedProducts = {};
+        globalProducts.forEach((product, index) => {
+          if (!categorizedProducts[product.category]) {
+            categorizedProducts[product.category] = [];
+          }
+          categorizedProducts[product.category].push({ product, index });
+        });
+
+        for (const [category, items] of Object.entries(categorizedProducts)) {
+          // Category Header
+          const header = document.createElement('h2');
+          header.innerText = category;
+          header.style.color = 'var(--color-primary)';
+          header.style.marginTop = '3rem';
+          header.style.marginBottom = '1.5rem';
+          header.style.fontSize = '1.8rem';
+          header.style.borderBottom = '2px solid rgba(255,255,255,0.1)';
+          header.style.paddingBottom = '0.5rem';
+          container.appendChild(header);
+
+          // Table Container
+          const tableContainer = document.createElement('div');
+          tableContainer.className = 'product-table-container';
+
+          const table = document.createElement('table');
+          table.className = 'product-table';
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th style="width: 60px;">S.No</th>
+                <th style="width: auto;">Product Name</th>
+                <th style="width: 120px;">Price</th>
+                <th style="width: 150px;">Discount</th>
+                <th style="width: 100px;">Qty</th>
+                <th style="width: 150px;">Total</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+          
+          const tbody = table.querySelector('tbody');
+
+          items.forEach(({ product, index }) => {
+            const discountedPrice = product.price - (product.price * (product.discount / 100));
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${product.Sno}</td>
+              <td>
+                <div class="table-product-info">
+                  <img src="${product.image}" alt="${product.name}" class="table-product-image">
+                  <div>
+                    <h3 class="table-product-name">${product.name}</h3>
+                    <p class="table-product-category">${product.category}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex; flex-direction: column; gap: 0.2rem;">
+                  <span class="strikethrough-animated">₹${product.price.toFixed(2)}</span>
+                  <span style="font-weight: 700; color: var(--text-main); font-size: 1.15rem;">₹${discountedPrice.toFixed(2)}</span>
+                </div>
+              </td>
+              <td>
+                <span style="background: rgba(255, 68, 68, 0.15); color: #ff6b6b; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: 700; font-size: 0.9rem;">${product.discount}% OFF</span>
+              </td>
+              <td>
+                <input type="number" id="qty-${index}" min="0" value="0" style="width: 60px; padding: 0.3rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; text-align: center;" oninput="calculateTotals()">
+              </td>
+              <td id="total-${index}" class="table-product-total">₹0.00</td>
+            `;
+            tbody.appendChild(row);
+          });
+
+          tableContainer.appendChild(table);
+          container.appendChild(tableContainer);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        const container = document.getElementById('categories-container');
+        container.innerHTML = '<div style="text-align:center; padding:2rem; color:#ff4444; background:rgba(255,0,0,0.1); border-radius:12px;">Unable to connect to database. Please ensure the backend server is running.</div>';
+      }
+    }
+
+    async function proceedToConfirmation() {
+      const cart = [];
+      globalProducts.forEach((product, index) => {
+        const qtyInput = document.getElementById(`qty-${index}`);
+        const qty = parseInt(qtyInput.value) || 0;
+        if (qty > 0) {
+          const discountedPrice = product.price - (product.price * (product.discount / 100));
+          cart.push({
+            Sno: product.Sno,
+            name: product.name,
+            price: product.price,
+            discount: product.discount,
+            discountedPrice: discountedPrice,
+            qty: qty,
+            total: discountedPrice * qty
+          });
+        }
+      });
+
+      if (cart.length === 0) {
+        alert("Please add at least one product to your order.");
+        return;
+      }
+
+      localStorage.setItem('blueman_cart', JSON.stringify(cart));
+      if (typeof onCartUpdated === 'function') {
+        await onCartUpdated(cart);
+      }
+      window.location.href = 'confirmation.html';
+    }
+
+    // Call fetchProducts when the page loads
+    document.addEventListener('DOMContentLoaded', fetchProducts);
+  </script>
+</body>
+
+</html>
