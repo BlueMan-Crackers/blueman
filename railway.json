@@ -1,0 +1,5 @@
+{
+  "deploy": {
+    "preDeployCommand": "npm rebuild sqlite3"
+  }
+}
